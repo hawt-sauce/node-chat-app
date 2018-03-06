@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Index</title>
+    </head>
+    <body>
+        <p><h1>Welcome to the chat app.</h1></p>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            let socket = io(); //initiates a request from the client to the server to open a websocket and keep it open
+            
+            socket.on('connect',()=>{
+                console.log('Connected to server.')
+            });
+
+            socket.on('disconnect',()=>{
+                console.log('Disconnected from server.')
+            });
+
+        </script>
+    </body>
+</html>
