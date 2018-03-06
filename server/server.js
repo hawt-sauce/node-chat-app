@@ -19,6 +19,17 @@ console.log(publicPath);
 
 io.on('connection',(socket)=>{
     console.log("New user connected.");
+
+    socket.emit('newEmail',{
+        from:"dummyclient@abcmail.com",
+        text:"Hello",
+        completedAt:123
+    });
+
+    socket.on('getEmail',(newEmail)=>{
+        console.log("New Email Sent",newEmail)
+    })
+
     socket.on('disconnect',(socket)=>{
         console.log('User disconnected');
     });
