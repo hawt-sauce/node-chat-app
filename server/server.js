@@ -27,20 +27,37 @@ io.on('connection',(socket)=>{
     let date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+today.getDate();
     let time = today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
 
-    // socket.emit('newMessage',{
-    //     from:"dummyclient@abcmail.com",
-    //     text:"Hello",
-    //     completedAt: date+" "+time+"Hrs"
-    // });
+    
+    //send individually to each user joining
+    socket.emit('newMessage',{
+        from:"Admin@localhost",
+        text:"Welcome to the chat app",
+        createdAt: date+" "+time+"Hrs"
+    });
+
+    //notify everyone but the admin that a new user joined
+
+    socket.broadcast.emit('newMessage',{
+        from:"Admin@localhost",
+        text:"A new user just joined",
+        createdAt: date+" "+time+"Hrs"
+    })
 
     socket.on('createMessage',(newMessage)=>{
         console.log("New Message Received",newMessage);
-        io.emit('newMessage',{
-            from:newMessage.from,
-            text:newMessage.text,
-            createdAt: date+" "+time+"Hrs"
-        });
-    })
+        // io.emit('newMessage',{
+        //     from:newMessage.from,
+        //     text:newMessage.text,
+        //     createdAt: date+" "+time+"Hrs"
+        // });
+
+        // //Emits to everyone but the sender
+        // socket.broadcast.emit('newMessage',{
+        //     from:newMessage.from,
+        //     text:newMessage.text,
+        //     createdAt: date+" "+time+"Hrs"
+        // });
+    });
 
     socket.on('disconnect',(socket)=>{
         console.log('User disconnected');
