@@ -6,6 +6,8 @@ const path = require("path");
 const express = require("express");
 const http = require('http');
 const socketIO = require('socket.io');
+const {generateMessage} = require('./utils/message');
+
 
 const app = express();
 
@@ -29,19 +31,11 @@ io.on('connection',(socket)=>{
 
     
     //send individually to each user joining
-    socket.emit('newMessage',{
-        from:"Admin@localhost",
-        text:"Welcome to the chat app",
-        createdAt: date+" "+time+"Hrs"
-    });
+    socket.emit('newMessage',generateMessage("Admin@localhost","Welcome to the chat app"));
 
     //notify everyone but the admin that a new user joined
 
-    socket.broadcast.emit('newMessage',{
-        from:"Admin@localhost",
-        text:"A new user just joined",
-        createdAt: date+" "+time+"Hrs"
-    })
+    socket.broadcast.emit('newMessage',generateMessage("Admin@localhost","A new user just joined"));
 
     socket.on('createMessage',(newMessage)=>{
         console.log("New Message Received",newMessage);
